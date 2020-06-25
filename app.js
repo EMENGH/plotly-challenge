@@ -1,7 +1,6 @@
 function buildBarChart(sample) {
-  console.log(sample);
-  var curr_rec = sample;
-  // Use `d3.json` to fetch the sample data for the bar chart
+
+  // using d3.json get data to build the bar chart
   d3.json("samples.json").then((data) => {
         samples_rec = data.samples;
 
@@ -26,7 +25,7 @@ function buildBarChart(sample) {
 function buildBubbleChart(sample) {
   console.log(sample);
   var curr_rec = sample;
-  // Use `d3.json` to fetch the sample data for the bar chart
+  // using d3.json get data to build the bubble chart
   d3.json("samples.json").then((data) => {
         samples_rec = data.samples;
 
@@ -55,6 +54,23 @@ function buildBubbleChart(sample) {
 }; 
 
 
+function demo_info(first_rec){
+    // using d3.json get data to build the Demographic Info Section 
+    d3.json("samples.json").then((data) => {
+
+       sample_metadata = data.metadata;
+       var filtered_data= sample_metadata.filter(object => object.id == first_rec);
+       var records= filtered_data[0];
+       var panel = d3.select("#sample-metadata"); 
+      
+       //clean previous entries and populate panel data 
+       panel.html("");        
+       Object.entries(records).forEach(([key, value]) => {
+          panel.append("h5").text(`${key}:${value}`);
+       });
+    });   
+};
+
 
 function dropdown() {
 // use d3 to select the corresponding html id element
@@ -74,9 +90,16 @@ function dropdown() {
       console.log(first_rec);
       buildBarChart(first_rec);
       buildBubbleChart(first_rec);
+      demo_info(first_rec);
 
   }); 
 };
+
+function optionChanged (sample) {
+   buildBarChart(sample);
+   buildBubbleChart(sample);
+   demo_info(sample);   
+};   
 
 
 dropdown();
