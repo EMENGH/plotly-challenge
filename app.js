@@ -36,24 +36,21 @@ function buildBubbleChart(sample) {
         var sample_values = selection.sample_values;
         var otu_labels = selection.otu_labels;
 
-        var trace_bubble = [{
+        var trace_bubble = {
           x: otu_ids,
           y: sample_values,
           text: otu_labels,
           mode: `markers`,
           marker: { size: sample_values,
                     color: otu_ids,
-                    colorscale: 'Earth'
                   }
         }; 
-        var data = [bubble];
+        var data = [trace_bubble];
         var layout = { title: "Belly Button Bacteria",
-      }         
-        
-          type: "bar",
-          orientation: "h"
-        }];
-        Plotly.newPlot("bar", trace_bubble);        
+        xaxis: { title: "OTU ID "}
+      };         
+
+        Plotly.newPlot("bubble", data, layout);        
   }); 
 }; 
 
@@ -76,6 +73,7 @@ function dropdown() {
       const first_rec = samplesData[0];
       console.log(first_rec);
       buildBarChart(first_rec);
+      buildBubbleChart(first_rec);
 
   }); 
 };
